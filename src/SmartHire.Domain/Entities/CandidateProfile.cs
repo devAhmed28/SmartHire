@@ -16,5 +16,8 @@ namespace SmartHire.Domain.Entities
         public decimal ExpectedSalary { get; private set; }
         public bool IsOpenToWork { get; private set; } = true;
         public User User { get; private set; } = null!;
+        public ICollection<CandidateSkill> CandidateSkills { get; private set; } = new List<CandidateSkill>();
+        public ICollection<JobApplication> JobApplications { get; private set; } = new List<JobApplication>();
+        public ICollection<SavedJob> SavedJobs { get; private set; } = new List<SavedJob>();
     }
 }

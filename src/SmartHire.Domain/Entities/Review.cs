@@ -8,5 +8,7 @@ namespace SmartHire.Domain.Entities
         public Guid UserId { get; private set; }
         public int Rating { get; private set; }
         public string Comment { get; private set; } = string.Empty;
+        public Company Company { get; private set; } = null!;
+        public User User { get; private set; } = null!;
     }
 }
