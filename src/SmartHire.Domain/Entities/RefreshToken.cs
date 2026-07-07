@@ -9,5 +9,6 @@ namespace SmartHire.Domain.Entities
         public DateTime ExpiresAt { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public bool IsRevoked { get; private set; }
+        public User User { get; private set; } = null!;
     }
 }

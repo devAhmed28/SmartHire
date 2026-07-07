@@ -16,5 +16,10 @@ namespace SmartHire.Domain.Entities
         public bool IsEmailConfirmed { get; private set; }
         public bool IsActive { get; private set; } = true;
         public DateTime? LastLoginAt { get; private set; }
+        public Company? Company { get; private set; }
+        public CandidateProfile? CandidateProfile { get; private set; }
+        public ICollection<Notification> Notifications { get; private set; } = new List<Notification>();
+        public ICollection<RefreshToken> RefreshTokens { get; private set; } = new List<RefreshToken>();
+        public ICollection<Review> Reviews { get; private set; } = new List<Review>();
     }
 }

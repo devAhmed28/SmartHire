@@ -10,5 +10,6 @@ namespace SmartHire.Domain.Entities
         public string Message { get; private set; } = string.Empty;
         public NotificationType Type { get; private set; }
         public bool IsRead { get; private set; }
+        public User User { get; private set; } = null!;
     }
 }
