@@ -13,7 +13,7 @@ public class OfferConfiguration : IEntityTypeConfiguration<Offer>
         builder.HasKey(o => o.Id);
 
         builder.Property(o => o.Salary)
-               .HasColumnType("decimal(18,2)")
+               .HasPrecision(18,2)
                .IsRequired();
 
         builder.Property(o => o.Currency)

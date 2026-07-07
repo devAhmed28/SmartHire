@@ -22,11 +22,11 @@ public class SavedJobConfiguration : IEntityTypeConfiguration<SavedJob>
         builder.HasOne(sj => sj.CandidateProfile)
             .WithMany(cp => cp.SavedJobs)
             .HasForeignKey(sj => sj.CandidateProfileId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(sj => sj.Job)
             .WithMany(j => j.SavedJobs)
             .HasForeignKey(sj => sj.JobId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -32,6 +32,9 @@ public class CandidateProfileConfiguration : IEntityTypeConfiguration<CandidateP
         builder.HasIndex(cp => cp.UserId)
             .IsUnique();
 
+        builder.Property(cp => cp.ExpectedSalary)
+       .HasPrecision(18, 2);
+
         builder.HasOne(cp => cp.User)
             .WithOne(u => u.CandidateProfile)
             .HasForeignKey<CandidateProfile>(cp => cp.UserId)
