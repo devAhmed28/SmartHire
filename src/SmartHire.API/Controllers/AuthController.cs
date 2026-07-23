@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SmartHire.Application.DTOs.Auth;
+using SmartHire.Application.Features.Auth.Commands.Login;
 using SmartHire.Application.Features.Auth.Commands.Register;
 
 namespace SmartHire.API.Controllers
@@ -27,6 +28,19 @@ namespace SmartHire.API.Controllers
                 PhoneNumber = request.PhoneNumber,
                 Candidate = request.Candidate,
                 Company = request.Company,
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+            return ToActionResult(result);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
+        {
+            var command = new LoginCommand
+            {
+                Email = request.Email,
+                Password = request.Password
             };
 
             var result = await _mediator.Send(command, cancellationToken);
