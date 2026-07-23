@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartHire.Application.DTOs.Auth;
 using SmartHire.Application.Features.Auth.Commands.Login;
+using SmartHire.Application.Features.Auth.Commands.RefreshToken;
 using SmartHire.Application.Features.Auth.Commands.Register;
 
 namespace SmartHire.API.Controllers
@@ -41,6 +42,18 @@ namespace SmartHire.API.Controllers
             {
                 Email = request.Email,
                 Password = request.Password
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+            return ToActionResult(result);
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
+        {
+            var command = new RefreshTokenCommand
+            {
+                RefreshToken = request.RefreshToken
             };
 
             var result = await _mediator.Send(command, cancellationToken);

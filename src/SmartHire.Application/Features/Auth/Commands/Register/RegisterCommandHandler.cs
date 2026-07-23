@@ -107,7 +107,7 @@ namespace SmartHire.Application.Features.Auth.Commands.Register
             var accessToken = _tokenService.GenerateAccessToken(user);
             var refreshToken = _tokenService.GenerateRefreshToken();
 
-            var refreshTokenEntity = new RefreshToken(
+            var refreshTokenEntity = new Domain.Entities.RefreshToken(
                 user.Id,
                 refreshToken,
                 _dateTimeProvider.UtcNow.AddDays(7)

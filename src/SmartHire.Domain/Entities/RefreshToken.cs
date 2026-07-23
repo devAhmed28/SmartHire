@@ -25,5 +25,10 @@ namespace SmartHire.Domain.Entities
         {
             IsRevoked = true;
         }
+
+        public bool IsExpired()
+        {
+            return DateTime.UtcNow > ExpiresAt;
+        }
     }
 }
