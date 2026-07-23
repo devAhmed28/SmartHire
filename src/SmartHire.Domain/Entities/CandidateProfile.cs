@@ -4,6 +4,26 @@ namespace SmartHire.Domain.Entities
 {
     public class CandidateProfile : BaseAuditableEntity
     {
+        public CandidateProfile(
+            Guid userId,
+            string bio,
+            string currentPosition,
+            string currentLocation,
+            int yearsOfExperience,
+            decimal expectedSalary
+            )
+        {
+            Id = Guid.NewGuid();
+            UserId = userId;
+            Bio = bio;
+            CurrentPosition = currentPosition;
+            CurrentLocation = currentLocation;
+            YearsOfExperience = yearsOfExperience;
+            ExpectedSalary = expectedSalary;
+            IsOpenToWork = true;
+            CreatedAt = DateTime.UtcNow;
+        }
+
         public Guid UserId { get; private set; }
         public string Bio {  get; private set; } = string.Empty;
         public string CVUrl {  get; private set; } = string.Empty;
