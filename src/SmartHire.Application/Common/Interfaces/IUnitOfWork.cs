@@ -15,6 +15,7 @@ namespace SmartHire.Application.Common.Interfaces
         IReviewRepository Reviews { get; }
         ISavedJobRepository SavedJobs { get; }
         INotificationRepository Notifications { get; }
+        IRefreshTokenRepository RefreshTokens { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         Task BeginTransactionAsync(CancellationToken cancellationToken = default);

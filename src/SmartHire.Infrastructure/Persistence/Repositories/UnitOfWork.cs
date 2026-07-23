@@ -23,6 +23,7 @@ public class UnitOfWork : IUnitOfWork
     private IReviewRepository? _reviewRepository;
     private ISavedJobRepository? _savedJobRepository;
     private INotificationRepository? _notificationRepository;
+    private IRefreshTokenRepository? _refreshTokenRepository;
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -61,6 +62,9 @@ public class UnitOfWork : IUnitOfWork
 
     public INotificationRepository Notifications =>
         _notificationRepository ??= new NotificationRepository(_context);
+
+    public IRefreshTokenRepository RefreshTokens =>
+        _refreshTokenRepository ??= new RefreshTokenRepository(_context);
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

@@ -1,8 +1,9 @@
+using SmartHire.Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 using SmartHire.API.Middleware;
 using SmartHire.Infrastructure;
-using SmartHire.Infrastructure.Persistence.Context;
+using SmartHire.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,45 +22,53 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 // ============ 2. Add services ============
+
 builder.Services.AddControllers();
 
-// ============ 2. Add Health Checks ============
-builder.Services.AddHealthChecks()
-    .AddDbContextCheck<ApplicationDbContext>();
+// HttpContextAccessor (for CurrentUserService)
+builder.Services.AddHttpContextAccessor();
 
-// ============ 2a. Add CORS ============
+builder.Services.AddApplication();
+
+builder.Services.AddInfrastructure(builder.Configuration);
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
         policy =>
         {
-            policy.AllowAnyOrigin()      // Allow any domain
-                  .AllowAnyMethod()      // Allow GET, POST, PUT, DELETE, etc.
-                  .AllowAnyHeader();     // Allow any headers
+            policy.AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
         });
 });
 
-// ============ 2b. Add Swagger ============
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<ApplicationDbContext>();
 
-// ============ 2c. Add Infrastructure ============
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.OpenApiInfo
+    {
+        Title = "SmartHire API",
+        Version = "v1",
+        Description = "SmartHire Recruitment Platform API"
+    });
+});
 
 var app = builder.Build();
 
 // ============ 3. Configure pipeline ============
 
-// 1. Exception handling
+// Exception handling
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-// 2. Request logging
+// Request logging
 app.UseMiddleware<RequestLoggingMiddleware>();
 
-// 3. CORS - !! before UseAuthorization
 app.UseCors("AllowAll");
 
-// 4. Health Checks - !! before swagger
 app.MapHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = async (context, report) =>
@@ -74,7 +83,7 @@ app.MapHealthChecks("/health", new HealthCheckOptions
                 name = x.Key,
                 status = x.Value.Status.ToString(),
                 description = x.Value.Description,
-                duration = x.Value.Duration.TotalMilliseconds,
+                duration = x.Value.Duration.TotalMilliseconds
             }),
             totalDuration = report.TotalDuration.TotalMilliseconds
         };
@@ -90,9 +99,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.MapControllers();
 
-// ============ 4. Run ============
 
 try
 {
