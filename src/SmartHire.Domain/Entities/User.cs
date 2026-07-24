@@ -44,6 +44,19 @@ namespace SmartHire.Domain.Entities
         public ICollection<RefreshToken> RefreshTokens { get; private set; } = new List<RefreshToken>();
         public ICollection<Review> Reviews { get; private set; } = new List<Review>();
 
+        public void UpdateProfile(string firstName, string lastName, string phoneNumber)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+        }
+
+        public void ChangePassword(string newPasswordHahs)
+        {
+            PasswordHash = newPasswordHahs;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
         public void UpdateLastLogin()
         {
             LastLoginAt = DateTime.UtcNow;

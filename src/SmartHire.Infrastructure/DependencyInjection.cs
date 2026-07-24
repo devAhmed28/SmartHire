@@ -38,7 +38,7 @@ namespace SmartHire.Infrastructure
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
                         ValidateIssuer = true,
-                        ValidIssuer = jwtSettings.Audience,
+                        ValidIssuer = jwtSettings.Issuer,
                         ValidAudience = jwtSettings.Audience,
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero
