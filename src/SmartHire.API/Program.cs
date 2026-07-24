@@ -4,6 +4,9 @@ using Serilog;
 using SmartHire.API.Middleware;
 using SmartHire.Infrastructure;
 using SmartHire.Application;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,6 +71,9 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<RequestLoggingMiddleware>();
 
 app.UseCors("AllowAll");
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapHealthChecks("/health", new HealthCheckOptions
 {

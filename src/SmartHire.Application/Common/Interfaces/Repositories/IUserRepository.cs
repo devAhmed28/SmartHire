@@ -9,5 +9,6 @@ namespace SmartHire.Application.Common.Interfaces.Repositories
         Task<bool> IsEmailUniqueAsync(string email, CancellationToken cancellationToken = default);
         Task<bool> IsPhoneNumberUniqueAsync(string email, CancellationToken cancellationToken = default);
         Task<User?> GetByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken = default);
+        Task<User?> GetByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default);
     }
 }

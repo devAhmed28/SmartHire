@@ -39,5 +39,11 @@ namespace SmartHire.Infrastructure.Persistence.Repositories
                 .Include(u => u.RefreshTokens)
                 .FirstOrDefaultAsync(u => u.RefreshTokens.Any(rt => rt.Token == refreshToken), cancellationToken);
         }
+
+        public async Task<User?> GetByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber, cancellationToken);
+        }
     }
 }
