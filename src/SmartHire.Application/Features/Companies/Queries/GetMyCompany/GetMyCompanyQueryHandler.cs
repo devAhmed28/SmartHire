@@ -3,8 +3,9 @@ using SmartHire.Application.Common.Interfaces;
 using SmartHire.Application.Common.Models;
 using SmartHire.Application.DTOs.Companies;
 
-namespace SmartHire.Application.Features.Companies.Queries.GetCompany
+namespace SmartHire.Application.Features.Companies.Queries.GetMyCompany
 {
+    // to get the current user's company profile.
     public class GetMyCompanyQueryHandler : IRequestHandler<GetMyCompanyQuery, Result<CompanyProfileResponse>>
     {
         private readonly IUnitOfWork _unitOfWork;

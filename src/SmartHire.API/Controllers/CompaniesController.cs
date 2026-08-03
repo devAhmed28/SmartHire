@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartHire.Application.DTOs.Companies;
 using SmartHire.Application.Features.Companies.Commands.UpdateCompany;
-using SmartHire.Application.Features.Companies.Queries.GetCompany;
+using SmartHire.Application.Features.Companies.Queries.GetMyCompany;
 using System.Security.Claims;
 
 namespace SmartHire.API.Controllers
