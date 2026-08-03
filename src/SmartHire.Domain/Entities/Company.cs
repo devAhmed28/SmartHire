@@ -73,6 +73,12 @@ namespace SmartHire.Domain.Entities
             WebsiteUrl = websiteUrl;
             UpdatedAt = DateTime.UtcNow;
         }
+        
+        public void UpdateLinkedIn(string? linkedInUrl)
+        {
+            LinkedInUrl = linkedInUrl;
+            UpdatedAt = DateTime.UtcNow;
+        }
 
         public void UpdateLogo(string logoUrl)
         {
