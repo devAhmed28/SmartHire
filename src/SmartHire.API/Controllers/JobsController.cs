@@ -1,14 +1,17 @@
-﻿using System.Security.Claims;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartHire.Application.DTOs.Jobs;
-using SmartHire.Application.Features.Companies.Queries.GetCompanyByUserId;  // ← CHANGE THIS
+using SmartHire.Application.Features.Companies.Queries.GetCompanyByUserId;  
+using SmartHire.Application.Features.Jobs.Commands.CloseJob;
 using SmartHire.Application.Features.Jobs.Commands.CreateJob;
 using SmartHire.Application.Features.Jobs.Commands.DeleteJob;
+using SmartHire.Application.Features.Jobs.Commands.PublishJob;
 using SmartHire.Application.Features.Jobs.Commands.UpdateJob;
 using SmartHire.Application.Features.Jobs.Queries.GetCompanyJobs;
 using SmartHire.Application.Features.Jobs.Queries.GetJob;
+using SmartHire.Application.Features.Jobs.Queries.SearchJobs;
+using System.Security.Claims;
 
 namespace SmartHire.API.Controllers
 {
@@ -142,6 +145,78 @@ namespace SmartHire.API.Controllers
 
             var result = await _mediator.Send(command, cancellationToken);
 
+            return ToActionResult(result);
+        }
+
+        [HttpGet("search")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SearchJobs([FromQuery] SearchJobsRequest request, CancellationToken cancellationToken)
+        {
+            var query = new SearchJobsQuery
+            {
+                SearchTerm = request.SearchTerm,
+                JobType = request.JobType,
+                WorkMode = request.WorkMode,
+                MinSalary = request.MinSalary,
+                MaxSalary = request.MaxSalary,
+                Location = request.Location
+            };
+
+            var result = await _mediator.Send(query, cancellationToken);
+            return ToActionResult(result);
+        }
+
+        [HttpPost("{id}/publish")]
+        public async Task<IActionResult> PublishJob(Guid id, CancellationToken cancellationToken)
+        {
+            var userId = GetUserId();
+
+            if (userId == null)
+            {
+                return Unauthorized("User not authenticated");
+            }
+
+            var companyResult = await _mediator.Send(new GetCompanyByUserIdQuery { UserId = userId.Value }, cancellationToken);
+
+            if (companyResult.IsFailure || companyResult.Value == null)
+            {
+                return Forbid("User does not have a company");
+            }
+
+            var command = new PublishJobCommand
+            {
+                JobId = id,
+                CompanyId = companyResult.Value.Id
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+            return ToActionResult(result);
+        }
+
+        [HttpPost("{id}/close")]
+        public async Task<IActionResult> CloseJob(Guid id, CancellationToken cancellationToken)
+        {
+            var userId = GetUserId();
+
+            if (userId == null)
+            {
+                return Unauthorized("User not authenticated");
+            }
+
+            var companyResult = await _mediator.Send(new GetCompanyByUserIdQuery { UserId = userId.Value }, cancellationToken);
+
+            if (companyResult.IsFailure || companyResult.Value == null)
+            {
+                return Forbid("User does not have a company");
+            }
+
+            var command = new CloseJobCommand
+            {
+                JobId = id,
+                CompanyId = companyResult.Value.Id
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
             return ToActionResult(result);
         }
 

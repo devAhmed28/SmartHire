@@ -88,5 +88,23 @@ namespace SmartHire.Domain.Entities
             ExpirationDate = expirationDate;
             UpdatedAt = DateTime.UtcNow;
         }
+
+        public void Publish()
+        {
+            if (JobStatus == JobStatus.Draft)
+            {
+                JobStatus = JobStatus.Published;
+                UpdatedAt = DateTime.UtcNow;
+            }
+        }
+
+        public void Close()
+        {
+            if (JobStatus == JobStatus.Published)
+            {
+                JobStatus = JobStatus.Closed;
+                UpdatedAt = DateTime.UtcNow;
+            }
+        }
     }
 }
