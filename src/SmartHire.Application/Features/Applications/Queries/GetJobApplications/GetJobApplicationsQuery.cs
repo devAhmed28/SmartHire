@@ -1,0 +1,12 @@
+﻿using MediatR;
+using SmartHire.Application.Common.Models;
+using SmartHire.Application.DTOs.Applications;
+
+namespace SmartHire.Application.Features.Applications.Queries.GetJobApplications
+{
+    public class GetJobApplicationsQuery : IRequest<Result<List<ApplicationResponse>>>
+    {
+        public Guid JobId { get; set; }
+        public Guid CompanyId { get; set; }
+    }
+}

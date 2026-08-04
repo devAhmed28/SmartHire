@@ -66,6 +66,7 @@ namespace SmartHire.Infrastructure
             services.AddScoped<ISavedJobRepository, SavedJobRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<ICandidateSkillRepository, CandidateSkillRepository>();
 
             // add services
             services.AddScoped<IPasswordHasher, PasswordHasher>();

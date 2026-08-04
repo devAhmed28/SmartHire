@@ -39,5 +39,37 @@ namespace SmartHire.Domain.Entities
         public ICollection<CandidateSkill> CandidateSkills { get; private set; } = new List<CandidateSkill>();
         public ICollection<JobApplication> JobApplications { get; private set; } = new List<JobApplication>();
         public ICollection<SavedJob> SavedJobs { get; private set; } = new List<SavedJob>();
+
+        public void UpdateProfile(
+        string bio,
+        string currentPosition,
+        string currentLocation,
+        int yearsOfExperience,
+        decimal expectedSalary)
+        {
+            Bio = bio;
+            CurrentPosition = currentPosition;
+            CurrentLocation = currentLocation;
+            YearsOfExperience = yearsOfExperience;
+            ExpectedSalary = expectedSalary;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void UpdateSocialLinks(
+        string gitHubUrl,
+        string linkedInUrl,
+        string? portfolioUrl)
+        {
+            GitHubUrl = gitHubUrl;
+            LinkedInUrl = linkedInUrl;
+            PortfolioUrl = portfolioUrl;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void SetOpenToWork(bool isOpenToWork)
+        {
+            IsOpenToWork = isOpenToWork;
+            UpdatedAt = DateTime.UtcNow;
+        }
     }
 }
