@@ -16,6 +16,14 @@ namespace SmartHire.Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync(cp => cp.UserId == userId, cancellationToken);
         }
 
+        public async Task<CandidateProfile?> GetWithSkillsByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Include(cp => cp.CandidateSkills)
+                .ThenInclude(cs => cs.Skill)
+                .FirstOrDefaultAsync(cp => cp.UserId == userId, cancellationToken);
+        }
+
         public async Task<CandidateProfile?> GetWithSkillsAsync(Guid candidateProfileId, CancellationToken cancellationToken = default)
         {
             return await _dbSet

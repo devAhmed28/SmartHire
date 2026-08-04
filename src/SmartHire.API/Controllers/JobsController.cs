@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartHire.Application.DTOs.Jobs;
-using SmartHire.Application.Features.Companies.Queries.GetCompanyByUserId;  
+using SmartHire.Application.Features.Candidates.Queries.GetCandidateProfile;
+using SmartHire.Application.Features.Companies.Queries.GetCompanyByUserId;
 using SmartHire.Application.Features.Jobs.Commands.CloseJob;
 using SmartHire.Application.Features.Jobs.Commands.CreateJob;
 using SmartHire.Application.Features.Jobs.Commands.DeleteJob;
@@ -11,6 +12,8 @@ using SmartHire.Application.Features.Jobs.Commands.UpdateJob;
 using SmartHire.Application.Features.Jobs.Queries.GetCompanyJobs;
 using SmartHire.Application.Features.Jobs.Queries.GetJob;
 using SmartHire.Application.Features.Jobs.Queries.SearchJobs;
+using SmartHire.Application.Features.SavedJobs.Commands.SaveJob;
+using SmartHire.Application.Features.SavedJobs.Commands.UnsaveJob;
 using System.Security.Claims;
 
 namespace SmartHire.API.Controllers
@@ -241,6 +244,62 @@ namespace SmartHire.API.Controllers
             {
                 JobId = id,
                 CompanyId = companyResult.Value.Id
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            return ToActionResult(result);
+        }
+
+        [HttpPost("{jobId}/save")]
+        public async Task<IActionResult> SaveJob(Guid jobId, CancellationToken cancellationToken)
+        {
+            var userId = GetUserId();
+
+            if (userId == null)
+            {
+                return Unauthorized("User not authenticated");
+            }
+
+            var candidateProfile = await _mediator.Send(new GetCandidateProfileQuery { UserId = userId.Value }, cancellationToken);
+
+            if (candidateProfile.IsFailure || candidateProfile.Value == null)
+            {
+                return Forbid("User is not a candidate");
+            }
+
+            var command = new SaveJobCommand
+            {
+                CandidateId = candidateProfile.Value.UserId,
+                JobId = jobId
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            return ToActionResult(result);
+        }
+
+        [HttpDelete("{jobId}/save")]
+        public async Task<IActionResult> UnsaveJob(Guid jobId, CancellationToken cancellationToken)
+        {
+            var userId = GetUserId();
+
+            if (userId == null)
+            {
+                return Unauthorized("User not authenticated");
+            }
+
+            var candidateResult = await _mediator.Send(new GetCandidateProfileQuery { UserId = userId.Value }, cancellationToken);
+
+            if (candidateResult.IsFailure || candidateResult.Value == null)
+            {
+                return Forbid("User is not a candidate");
+            }
+
+            var command = new UnsaveJobCommand
+            {
+                CandidateId = candidateResult.Value.UserId,
+                JobId = jobId
             };
 
             var result = await _mediator.Send(command, cancellationToken);
