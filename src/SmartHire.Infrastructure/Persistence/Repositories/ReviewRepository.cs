@@ -20,11 +20,12 @@ public class ReviewRepository : BaseRepository<Review>, IReviewRepository
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyList<Review>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Review>> GetByUserIdWithDetailsAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         return await _dbSet
-            .Where(r => r.UserId == userId)
             .Include(r => r.Company)
+            .Include(r => r.User)
+            .Where(r => r.UserId == userId)
             .OrderByDescending(r => r.CreatedAt)
             .ToListAsync(cancellationToken);
     }
@@ -48,11 +49,12 @@ public class ReviewRepository : BaseRepository<Review>, IReviewRepository
         return ratings.Average();
     }
 
-    public async Task<IReadOnlyList<Review>> GetWithCompanyDetailsAsync(CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Review>> GetWithCompanyDetailsAsync(Guid companyId, CancellationToken cancellationToken = default)
     {
         return await _dbSet
             .Include(r => r.Company)
             .Include(r => r.User)
+            .Where(r => r.CompanyId == companyId)
             .OrderByDescending(r => r.CreatedAt)
             .ToListAsync(cancellationToken);
     }
