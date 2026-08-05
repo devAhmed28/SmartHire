@@ -5,8 +5,9 @@
         Pending = 1,
         Reviewing = 2,
         Interview = 3,
-        Accepted = 4,
-        Rejected = 5,
-        Withdrawn = 6
+        OfferSent = 4,
+        Accepted = 5,
+        Rejected = 6,
+        Withdrawn = 7
     }
 }
