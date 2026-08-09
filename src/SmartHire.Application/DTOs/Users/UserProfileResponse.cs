@@ -10,5 +10,6 @@
         public string Role { get; set; } = string.Empty;
         public bool IsEmailConfirmed { get; set; }
         public bool IsActive { get; set; }
+        public string? ProfileImageUrl { get; set; }
     }
 }

@@ -71,5 +71,11 @@ namespace SmartHire.Domain.Entities
             IsOpenToWork = isOpenToWork;
             UpdatedAt = DateTime.UtcNow;
         }
+
+        public void UpdateCV(string cvUrl)
+        {
+            CVUrl = cvUrl;
+            UpdatedAt = DateTime.UtcNow;
+        }
     }
 }

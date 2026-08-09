@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartHire.Application.DTOs.Candidate;
+using SmartHire.Application.DTOs.Uploads;
 using SmartHire.Application.Features.Candidates.Commands.AddSkill;
 using SmartHire.Application.Features.Candidates.Commands.RemoveSkill;
 using SmartHire.Application.Features.Candidates.Commands.UpdateCandidateProfile;
 using SmartHire.Application.Features.Candidates.Queries.GetCandidateProfile;
 using SmartHire.Application.Features.SavedJobs.Queries.GetSavedJobs;
+using SmartHire.Application.Features.Uploads.Commands.UploadCV;
 using System.Security.Claims;
 
 namespace SmartHire.API.Controllers
@@ -136,6 +138,28 @@ namespace SmartHire.API.Controllers
             };
 
             var result = await _mediator.Send(query, cancellationToken);
+
+            return ToActionResult(result);
+        }
+
+        [HttpPost("me/cv")]
+        [RequestSizeLimit(5 * 1024 * 1024)]
+        public async Task<IActionResult> UploadCV([FromForm] UploadCVRequest request, CancellationToken cancellationToken)
+        {
+            var userId = GetUserId();
+
+            if (userId == null)
+            {
+                return Unauthorized("User not authenticated");
+            }
+
+            var command = new UploadCVCommand
+            {
+                UserId = userId.Value,
+                File = request.File
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
 
             return ToActionResult(result);
         }
