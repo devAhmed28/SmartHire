@@ -32,7 +32,8 @@ namespace SmartHire.Application.Features.Users.Queries.GetCurrentUser
                 PhoneNumber = user.PhoneNumber,
                 Role = user.Role.ToString(),
                 IsEmailConfirmed = user.IsEmailConfirmed,
-                IsActive = user.IsActive
+                IsActive = user.IsActive,
+                ProfileImageUrl = user.ProfileImageUrl,
             };
 
             return Result.Success(response);

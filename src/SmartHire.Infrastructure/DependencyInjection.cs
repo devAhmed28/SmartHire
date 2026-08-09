@@ -25,6 +25,12 @@ namespace SmartHire.Infrastructure
             configuration.Bind(nameof(JwtSettings), jwtSettings);
             services.AddSingleton(jwtSettings);
 
+            var cloudinarySettings = new CloudinarySettings();
+            configuration.Bind(nameof(CloudinarySettings), cloudinarySettings);
+            services.AddSingleton(cloudinarySettings);
+
+            services.Configure<CloudinarySettings>(configuration.GetSection("Cloudinary"));
+
             // add authentication
             services.AddAuthentication(options =>
             {
@@ -73,6 +79,7 @@ namespace SmartHire.Infrastructure
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+            services.AddScoped<IFileUploadService, CloudinaryService>();
 
 
             return services;

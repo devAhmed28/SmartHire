@@ -51,6 +51,11 @@ namespace SmartHire.Domain.Entities
             PhoneNumber = phoneNumber;
         }
 
+        public void UpdateProfileImage(string profileImageUrl)
+        {
+            ProfileImageUrl = profileImageUrl;
+        }
+
         public void ChangePassword(string newPasswordHahs)
         {
             PasswordHash = newPasswordHahs;

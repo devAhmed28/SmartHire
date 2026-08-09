@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartHire.Application.DTOs.Companies;
+using SmartHire.Application.DTOs.Uploads;
 using SmartHire.Application.Features.Companies.Commands.UpdateCompany;
+using SmartHire.Application.Features.Companies.Queries.GetCompanyByUserId;
 using SmartHire.Application.Features.Companies.Queries.GetMyCompany;
+using SmartHire.Application.Features.Uploads.Commands.UploadCompanyLogo;
 using System.Security.Claims;
 
 namespace SmartHire.API.Controllers
@@ -67,6 +70,35 @@ namespace SmartHire.API.Controllers
 
             var result = await _mediator.Send(command, cancellationToken);
             
+            return ToActionResult(result);
+        }
+
+        [HttpPost("me/logo")]
+        [RequestSizeLimit(2 * 1024 * 1024)]
+        public async Task<IActionResult> UploadCompanyLogo([FromForm] UploadCompanyLogoRequest request, CancellationToken cancellationToken)
+        {
+            var userId = GetUserId();
+
+            if (userId == null)
+            {
+                return Unauthorized("User not authenticated");
+            }
+
+            var companyResult = await _mediator.Send(new GetCompanyByUserIdQuery { UserId = userId.Value }, cancellationToken);
+
+            if (companyResult.IsFailure || companyResult.Value == null)
+            {
+                return Forbid("User does not have a company");
+            }
+
+            var command = new UploadCompanyLogoCommand
+            {
+                CompanyId = companyResult.Value.Id,
+                File = request.File
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+
             return ToActionResult(result);
         }
 

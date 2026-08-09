@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartHire.Application.Common.Interfaces;
+using SmartHire.Application.DTOs.Uploads;
 using SmartHire.Application.DTOs.Users;
+using SmartHire.Application.Features.Uploads.Commands.UploadProfileImage;
 using SmartHire.Application.Features.Users.Commands.ChangePassword;
 using SmartHire.Application.Features.Users.Commands.UpdateProfile;
 using SmartHire.Application.Features.Users.Queries.GetCurrentUser;
@@ -84,6 +86,28 @@ namespace SmartHire.API.Controllers
                 UserId = userId.Value,
                 CurrentPassword = request.CurrentPassword,
                 NewPassword = request.NewPassword
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            return ToActionResult(result);
+        }
+
+        [HttpPost("me/profile-image")]
+        [RequestSizeLimit(2 * 1024 * 1024)]
+        public async Task<IActionResult> UploadProfileImage([FromForm] UploadProfileImageRequest request, CancellationToken cancellationToken)
+        {
+            var userId = GetUserId();
+
+            if (userId == null)
+            {
+                return Unauthorized("User not authenticated");
+            }
+
+            var command = new UploadProfileImageCommand
+            {
+                UserId = userId.Value,
+                File = request.File
             };
 
             var result = await _mediator.Send(command, cancellationToken);
