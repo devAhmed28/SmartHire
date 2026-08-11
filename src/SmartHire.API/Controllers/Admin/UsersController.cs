@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartHire.Application.Features.Admin.Commands.ActivateUser;
 using SmartHire.Application.Features.Admin.Commands.DeactivateUser;
 using SmartHire.Application.Features.Admin.Queries.GetAllUsers;
+using SmartHire.Application.Features.Admin.Queries.GetUserDetails;
 
 namespace SmartHire.API.Controllers.Admin
 {
@@ -20,6 +21,19 @@ namespace SmartHire.API.Controllers.Admin
         public async Task<IActionResult> GetAllUsers(CancellationToken cancellationToken)
         {
             var query = new GetAllUsersQuery();
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            return ToActionResult(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserDetails(Guid id, CancellationToken cancellationToken)
+        {
+            var query = new GetUserDetailsQuery
+            {
+                UserId = id
+            };
 
             var result = await _mediator.Send(query, cancellationToken);
 

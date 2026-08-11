@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartHire.Application.Features.Admin.Commands.DeleteJob;
 using SmartHire.Application.Features.Admin.Queries.GetAllJobs;
+using SmartHire.Application.Features.Admin.Queries.GetJobDetails;
 using System.Formats.Asn1;
 
 namespace SmartHire.API.Controllers.Admin
@@ -23,6 +24,18 @@ namespace SmartHire.API.Controllers.Admin
 
             var result = await _mediator.Send(query, cancellationToken);
 
+            return ToActionResult(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetJobDetails(Guid id, CancellationToken cancellationToken)
+        {
+            var query = new GetJobDetailsQuery
+            {
+                JobId = id
+            };
+
+            var result = await _mediator.Send(query, cancellationToken);
             return ToActionResult(result);
         }
 

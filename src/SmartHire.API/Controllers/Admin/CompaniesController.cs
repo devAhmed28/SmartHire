@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartHire.Application.Features.Admin.Commands.DeactivateCompany;
 using SmartHire.Application.Features.Admin.Commands.VerifyCompany;
 using SmartHire.Application.Features.Admin.Queries.GetAllCompanies;
+using SmartHire.Application.Features.Admin.Queries.GetCompanyDetails;
 
 namespace SmartHire.API.Controllers.Admin
 {
@@ -20,6 +21,19 @@ namespace SmartHire.API.Controllers.Admin
         public async Task<IActionResult> GetAllCompanies(CancellationToken cancellationToken)
         {
             var query = new GetAllCompaniesQuery();
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            return ToActionResult(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCompanyDetails(Guid id, CancellationToken cancellationToken)
+        {
+            var query = new GetCompanyDetailsQuery
+            {
+                CompanyId = id
+            };
 
             var result = await _mediator.Send(query, cancellationToken);
 
