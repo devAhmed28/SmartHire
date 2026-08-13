@@ -5,10 +5,6 @@ using SmartHire.Infrastructure.Persistence.Context;
 
 namespace SmartHire.Infrastructure.Persistence.Repositories;
 
-/// <summary>
-/// Repository implementation for SavedJob entity.
-/// Inherits from BaseRepository and implements ISavedJobRepository.
-/// </summary>
 public class SavedJobRepository : BaseRepository<SavedJob>, ISavedJobRepository
 {
     public SavedJobRepository(ApplicationDbContext context) : base(context)

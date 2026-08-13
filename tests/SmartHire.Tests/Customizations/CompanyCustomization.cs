@@ -11,7 +11,8 @@ namespace SmartHire.Tests.Customizations
         {
             fixture.Customize<Company>(composer => composer
                 .FromFactory(new MethodInvoker(new CompanyConstructorQuery()))
-                .OmitAutoProperties());
+                .OmitAutoProperties()
+            );
         }
 
         private class CompanyConstructorQuery : IMethodQuery

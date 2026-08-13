@@ -49,3 +49,13 @@ coverage/
 # ==========================
 .DS_Store
 Thumbs.db
+
+# ==========================
+# Local Secrets
+# ==========================
+secrets.json
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
+.env
+.env.*

@@ -53,7 +53,7 @@ namespace SmartHire.Application.Features.Applications.Commands.ApplyForJob
                 return Error.Conflict("You have already applied for this job");
             }
 
-            var application = new JobApplication (
+            var application = new JobApplication(
                 candidate.Id,
                 request.JobId,
                 request.CoverLetter
@@ -61,6 +61,8 @@ namespace SmartHire.Application.Features.Applications.Commands.ApplyForJob
 
             await _unitOfWork.JobApplications.AddAsync(application, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            var user = await _unitOfWork.Users.GetByIdAsync(candidate.UserId, cancellationToken);
 
             var company = await _unitOfWork.Companies.GetByIdAsync(job.CompanyId, cancellationToken);
 
@@ -70,8 +72,8 @@ namespace SmartHire.Application.Features.Applications.Commands.ApplyForJob
                 JobId = application.JobId,
                 JobTitle = job.Title,
                 CompanyName = company?.CompanyName ?? string.Empty,
-                CandidateName = $"{candidate.User.FirstName} {candidate.User.LastName}",
-                CandidateEmail = candidate.User.Email,
+                CandidateName = user != null ? $"{user.FirstName} {user.LastName}" : string.Empty,
+                CandidateEmail = user?.Email ?? string.Empty,
                 Status = application.Status,
                 CoverLetter = application.CoverLetter,
                 AppliedAt = application.AppliedAt,

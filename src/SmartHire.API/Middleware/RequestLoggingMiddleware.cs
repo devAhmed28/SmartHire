@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Timers;
 
 namespace SmartHire.API.Middleware
 {
@@ -41,7 +40,7 @@ namespace SmartHire.API.Middleware
                 stopwatch.Stop();
                 _logger.LogError(ex, $"Request: {method} {path} -> {stopwatch.ElapsedMilliseconds}ms from {ipAddress}");
 
-                throw; // Re-throw for Exception Middleware to handle
+                throw;
             }
         }
     }

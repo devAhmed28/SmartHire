@@ -17,6 +17,8 @@ namespace SmartHire.Tests.Helpers
             
             _fixture.Customize(new UserCustomization());
             _fixture.Customize(new CompanyCustomization());
+            _fixture.Customize(new JobCustomization());
+            _fixture.Customize(new CandidateProfileCustomization());
             
             // for prevent infinite loop..
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());

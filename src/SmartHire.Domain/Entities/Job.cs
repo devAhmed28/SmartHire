@@ -106,5 +106,10 @@ namespace SmartHire.Domain.Entities
                 UpdatedAt = DateTime.UtcNow;
             }
         }
+
+        public bool IsExpired()
+        {
+            return DateTime.UtcNow > ExpirationDate;
+        }
     }
 }

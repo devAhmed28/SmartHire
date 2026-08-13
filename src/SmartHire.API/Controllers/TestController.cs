@@ -31,7 +31,6 @@ namespace SmartHire.API.Controllers
         [HttpGet("error")]
         public IActionResult GetError()
         {
-            // Simulate an error to test exception handling
             throw new Exception("This is a test exception to verify exception handling!");
         }
 
@@ -42,7 +41,6 @@ namespace SmartHire.API.Controllers
         [HttpGet("notfound")]
         public IActionResult GetNotFound()
         {
-            // Simulate a not found error
             var result = Result.Failure(Error.NotFound("Test Entity"));
             return ToActionResult(result);
         }
@@ -54,7 +52,6 @@ namespace SmartHire.API.Controllers
         [HttpGet("conflict")]
         public IActionResult GetConflict()
         {
-            // Simulate a conflict error
             var result = Result.Failure(Error.Conflict("Test conflict occurred"));
             return ToActionResult(result);
         }

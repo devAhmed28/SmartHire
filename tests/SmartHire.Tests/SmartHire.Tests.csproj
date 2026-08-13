@@ -34,14 +34,4 @@
     <ProjectReference Include="..\..\src\SmartHire.API\SmartHire.API.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ApiTests\Controllers\" />
-    <Folder Include="ApiTests\Middleware\" />
-    <Folder Include="IntegrationTests\Services\" />
-    <Folder Include="IntegrationTests\Repositories\" />
-    <Folder Include="UnitTests\Application\Commands\" />
-    <Folder Include="UnitTests\Application\Queries\" />
-    <Folder Include="UnitTests\Common\" />
-  </ItemGroup>
-
 </Project>
