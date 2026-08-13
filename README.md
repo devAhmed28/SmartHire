@@ -131,22 +131,6 @@ dotnet run --project src/SmartHire.API
 # 5. Open the Swagger URL shown in the terminal
 ```
 
----
-
-## Security
-
-Sensitive credentials should not be committed to Git.
-
-For local development:
-
-- Store secrets using .NET User Secrets or environment variables.
-- Keep real JWT and Cloudinary credentials out of source control.
-- Use safe placeholder values in committed configuration files.
-
-📄 **[Security Documentation](docs/security.md)**
-
----
-
 ## Documentation
 
 More detailed information about the project is available in the `docs/` directory.
