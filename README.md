@@ -97,7 +97,7 @@ The project connects **Companies, Candidates, and Admins** and covers the main r
 | Metric      |     Value |
 | ----------- | --------: |
 | **Tests**   |    **86** |
-| **Passed**  | **86** ✅ |
+| **Passed**  | **86**  |
 | **Failed**  |     **0** |
 | **Skipped** |     **0** |
 
