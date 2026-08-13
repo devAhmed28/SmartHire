@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartHire.Application.Common.Interfaces;
 using SmartHire.Application.DTOs.Uploads;
 using SmartHire.Application.DTOs.Users;
 using SmartHire.Application.Features.Uploads.Commands.UploadProfileImage;

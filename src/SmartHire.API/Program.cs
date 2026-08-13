@@ -73,10 +73,8 @@ using (var scope = app.Services.CreateScope())
 
 // ============ 3. Configure pipeline ============
 
-// Exception handling
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-// Request logging
 app.UseMiddleware<RequestLoggingMiddleware>();
 
 app.UseCors("AllowAll");

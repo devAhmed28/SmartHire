@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SmartHire.Application.DTOs.Applications
+﻿namespace SmartHire.Application.DTOs.Applications
 {
     public class ApplyForJobRequest
     {

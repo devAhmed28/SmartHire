@@ -44,7 +44,10 @@ namespace SmartHire.API.Controllers
 
             if (companyResult.IsFailure || companyResult.Value == null)
             {
-                return Forbid("User does not have a company");
+                return StatusCode(
+                    StatusCodes.Status403Forbidden,
+                    "User does not have a company"
+                );
             }
 
             var command = new CreateJobCommand
@@ -84,7 +87,10 @@ namespace SmartHire.API.Controllers
 
             if (companyResult.IsFailure || companyResult.Value == null)
             {
-                return Forbid("User does not have a company");
+                return StatusCode(
+                    StatusCodes.Status403Forbidden,
+                    "User does not have a company"
+                );
             }
 
             var query = new GetCompanyJobsQuery
@@ -98,6 +104,7 @@ namespace SmartHire.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetJob(Guid id, CancellationToken cancellationToken)
         {
             var query = new GetJobQuery
@@ -124,7 +131,10 @@ namespace SmartHire.API.Controllers
 
             if (companyResult.IsFailure || companyResult.Value == null)
             {
-                return Forbid("User does not have a company");
+                return StatusCode(
+                    StatusCodes.Status403Forbidden,
+                    "User does not have a company"
+                );
             }
 
             var command = new UpdateJobCommand
@@ -183,7 +193,10 @@ namespace SmartHire.API.Controllers
 
             if (companyResult.IsFailure || companyResult.Value == null)
             {
-                return Forbid("User does not have a company");
+                return StatusCode(
+                    StatusCodes.Status403Forbidden,
+                    "User does not have a company"
+                );
             }
 
             var command = new PublishJobCommand
@@ -210,7 +223,10 @@ namespace SmartHire.API.Controllers
 
             if (companyResult.IsFailure || companyResult.Value == null)
             {
-                return Forbid("User does not have a company");
+                return StatusCode(
+                    StatusCodes.Status403Forbidden,
+                    "User does not have a company"
+                );
             }
 
             var command = new CloseJobCommand
@@ -237,7 +253,10 @@ namespace SmartHire.API.Controllers
 
             if (companyResult.IsFailure || companyResult.Value == null)
             {
-                return Forbid("User does not have a company");
+                return StatusCode(
+                    StatusCodes.Status403Forbidden,
+                    "User does not have a company"
+                );
             }
 
             var command = new DeleteJobCommand
@@ -265,7 +284,10 @@ namespace SmartHire.API.Controllers
 
             if (candidateProfile.IsFailure || candidateProfile.Value == null)
             {
-                return Forbid("User is not a candidate");
+                return StatusCode(
+                    StatusCodes.Status403Forbidden,
+                    "User is not a candidate"
+                );
             }
 
             var command = new SaveJobCommand
@@ -293,7 +315,10 @@ namespace SmartHire.API.Controllers
 
             if (candidateResult.IsFailure || candidateResult.Value == null)
             {
-                return Forbid("User is not a candidate");
+                return StatusCode(
+                    StatusCodes.Status403Forbidden,
+                    "User is not a candidate"
+                );
             }
 
             var command = new UnsaveJobCommand

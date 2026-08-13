@@ -28,8 +28,10 @@ namespace SmartHire.Application.Features.Applications.Queries.GetJobApplications
                 return Error.Forbidden("You do not have permission to view applications for this job");
             }
 
+            var company = await _unitOfWork.Companies.GetByIdAsync(job.CompanyId, cancellationToken);
+
             var applications = await _unitOfWork.JobApplications.GetByJobIdAsync(
-                request.JobId, 
+                request.JobId,
                 cancellationToken
             );
 
@@ -46,7 +48,7 @@ namespace SmartHire.Application.Features.Applications.Queries.GetJobApplications
                     Id = application.Id,
                     JobId = application.JobId,
                     JobTitle = job.Title,
-                    CompanyName = job.Company.CompanyName,
+                    CompanyName = company?.CompanyName ?? string.Empty,
                     CandidateName = user != null ? $"{user.FirstName} {user.LastName}" : string.Empty,
                     CandidateEmail = user?.Email ?? string.Empty,
                     Status = application.Status,
@@ -59,4 +61,5 @@ namespace SmartHire.Application.Features.Applications.Queries.GetJobApplications
             return Result.Success(response);
         }
     }
+
 }
